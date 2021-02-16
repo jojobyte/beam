@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gunsight</title>
+  <style>
+  body{margin:0;}
+  #namespace,#broadcast,#authenticate,#supportedTypes{margin-bottom:1rem;}
+  #video{background:#222;width:100%;height:auto;}
+</style>
+</head>
+
+<body>
+  <video id="video" muted></video>
+
+  <center id="namespace">
+    <form>
+      <input name="pubkey" placeholder="user @alias or pub key">
+      <button type="submit">Watch Stream from User</button>
+    </form>
+  </center>
+
+  <br />
+
+  <center id="broadcast">
+    <p>Broadcast (Live Stream)</p>
+    <button class="record">Camera</button>
+    or
+    <button class="record">Screen</button>
+
+    <br />
+
+    <button id="logout">Log out</button>
+  </center>
+
+  <br />
+
+  <center id="authenticate">
+    <form>
+      <input id="user" placeholder="username">
+      <input id="pass" type="password" placeholder="password">
+      <button type="submit" id="login">Log in</button>
+    </form>
+  </center>
+
+  <br />
+
+  <center id="supportedTypes"></center>
+
+  <script type="module" src="/@/main.js"></script>
+</body>
+</html>
