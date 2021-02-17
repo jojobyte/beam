@@ -7,6 +7,7 @@ Live Camera / Screen Streaming
 npm install
 
 # dev
+npm run docker # start a local gun relay
 npm run dev
 
 # build

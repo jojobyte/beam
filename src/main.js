@@ -16,11 +16,11 @@ const authenticate = $('#authenticate > form')
 const namespace = $('#namespace > form')
 
 // const localPeer = `${location.protocol}//${location.hostname}:8765/gun`
-// const localPeer = `${location.href}gun`
-const remotePeer = `https://gunmeetingserver.herokuapp.com/gun`
+const localPeer = `${location.href}gun`
+// const remotePeer = `https://gunmeetingserver.herokuapp.com/gun`
 const peers = [
-  // localPeer,
-  remotePeer,
+  localPeer,
+  // remotePeer,
 ]
 const gun = Gun({ peers, localStorage: true, radisk: false })
 const gunUser = gun.user()
