@@ -8,10 +8,10 @@ import $, {
 let ns
 let appNamespace
 
-let vid = $('#video')
+const vid = $('#video')
 const broadcast = $('#broadcast')
-const login = $('#login')
 const logout = $('#logout')
+const recBtns = $('.record')
 const authenticate = $('#authenticate > form')
 const namespace = $('#namespace > form')
 
@@ -24,7 +24,7 @@ const remotePeers = [
 ]
 const peers = [
   ...remotePeers,
-  localPeer,
+  // localPeer,
 ]
 const gun = Gun({ peers, localStorage: true, radisk: false })
 const gunUser = gun.user()
@@ -57,7 +57,16 @@ gun.on('auth', (...a) => {
 
 gunUser.recall({ sessionStorage: true })
 
-login.on('click', async e => {
+logout.on('click', e => {
+  // console.log('logout', out)
+  record?.ing?.stop()
+  gunUser.leave()
+  changeUserState()
+})
+
+authenticate.on('submit', async e => {
+  e.preventDefault()
+
   const user = $('#user').value
   const pass = $('#pass').value
 
@@ -71,21 +80,12 @@ login.on('click', async e => {
   }
 })
 
-logout.on('click', e => {
-  // console.log('logout', out)
-  record?.ing?.stop()
-  gunUser.leave()
-  changeUserState()
-})
-
-authenticate.on('submit', e => {
-  e.preventDefault()
-})
-
 namespace.on('submit', e => {
   e.preventDefault()
   appNamespace = namespace.elements?.pubkey?.value
+
   console.log('namespace', appNamespace)
+
   if (appNamespace.indexOf('@') === 0) {
     gun.get(`~${appNamespace}`).map().once((_, key) => {
       appNamespace = key.substring(1)
@@ -97,6 +97,24 @@ namespace.on('submit', e => {
     ns = gun.user(appNamespace)
     view({ vid, ns, bb })
     console.log('namespace pub key', e, appNamespace, ns)
+  }
+})
+
+recBtns.forEach(btn => {
+  btn.onclick = el => {
+    if (!gunUser?.is) {
+      console.log('wrong', gunUser?.is)
+      return
+    }
+
+    if (record.ing) {
+      el.target.textContent = record.type
+
+      record?.ing?.stop()
+    } else {
+      record({ vid, ns: gunUser, type: btn.textContent })
+      btn.textContent = "End"
+    }
   }
 })
 
@@ -115,30 +133,6 @@ loopTypes(MIME_TYPES, mt => typeEl(...sup, mt))
 supportedTypes.appendChild(document.createElement("br"))
 
 loopTypes(MIME_TYPES, mt => typeEl(...cpt, mt))
-
-$('.record').forEach(btn => {
-  btn.onclick = el => {
-    if (!gunUser?.is) {
-      console.log('wrong', gunUser?.is)
-      return
-    }
-
-    if (record.ing) {
-      el.target.textContent = record.type
-
-      record?.ing?.stop()
-    } else {
-      record({ vid, ns: gunUser, type: btn.textContent })
-      btn.textContent = "End"
-    }
-  }
-})
-
-navigator.getMedia = (
-  navigator.mediaDevices.getUserMedia ||
-  navigator.getUserMedia || navigator.webkitGetUserMedia ||
-  navigator.mozGetUserMedia || navigator.msGetUserMedia
-)
 
 window.gun = gun
 window.HELP_IMPROVE_VIDEOJS = false

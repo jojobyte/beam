@@ -59,18 +59,6 @@ export function loopTypes(t, fn) {
   }
 }
 
-export function $(q) {
-  const qsa = document.querySelectorAll(q)
-  qsa.on = qsa.addEventListener
-
-  if (qsa.length === 1) {
-    qsa[0].on = qsa[0].addEventListener
-    return qsa[0]
-  }
-
-  return qsa
-}
-
 export function typeEl(type, parent, targ, fn, codec) {
   let el = document.createElement(type)
   const res = targ[fn](codec)
@@ -401,6 +389,18 @@ export function record({ vid, ns, type }) {
       ns.get('stream/video').put(null)
     }
   }
+}
+
+export function $(q) {
+  const qsa = document.querySelectorAll(q)
+  qsa.on = qsa.addEventListener
+
+  if (qsa.length === 1) {
+    qsa[0].on = qsa[0].addEventListener
+    return qsa[0]
+  }
+
+  return qsa
 }
 
 export default $
