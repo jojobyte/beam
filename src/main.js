@@ -17,10 +17,14 @@ const namespace = $('#namespace > form')
 
 // const localPeer = `${location.protocol}//${location.hostname}:8765/gun`
 const localPeer = `${location.href}gun`
-// const remotePeer = `https://gunmeetingserver.herokuapp.com/gun`
+const remotePeers = [
+  // 'https://gunmeetingserver.herokuapp.com/gun',
+  'https://gun-matrix.herokuapp.com/gun',
+  'https://gun-us.herokuapp.com/gun',
+]
 const peers = [
+  ...remotePeers,
   localPeer,
-  // remotePeer,
 ]
 const gun = Gun({ peers, localStorage: true, radisk: false })
 const gunUser = gun.user()
@@ -36,6 +40,8 @@ const changeUserState = () => {
     namespace.style = 'display:block;'
   }
 }
+
+changeUserState()
 
 const bb = window.bb = {
   sb: null,

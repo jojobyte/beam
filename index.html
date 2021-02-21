@@ -6,14 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>gunsight</title>
   <style>
-  body{margin:0;}
-  #namespace,#broadcast,#authenticate,#supportedTypes{margin-bottom:1rem;}
-  #video{background:#222;width:100%;height:auto;}
-</style>
+    body{margin:0;}
+    #namespace,#broadcast,#authenticate,#supportedTypes{margin-bottom:1rem;}
+    #video{background:#222;width:100%;height:auto;}
+  </style>
 </head>
 
 <body>
-  <video id="video" muted></video>
+  <video id="video" playsinline autoplay muted>
+    <source src="/@/assets/video/muted.webm" type="video/webm">
+    <source src="/@/assets/video/muted.mp4" type="video/mp4">
+    <source src="/@/assets/video/muted.ogg" type="video/ogv">
+  </video>
 
   <center id="namespace">
     <form>

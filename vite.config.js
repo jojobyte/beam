@@ -1,7 +1,6 @@
 import path from 'path'
 import { VitePWA } from 'vite-plugin-pwa'
 import VitePluginHtml from 'vite-plugin-html'
-import svgPlugin from 'vite-plugin-svg'
 
 const moduleExclude = (match) => {
   const m = id => id.indexOf(match) > -1
@@ -17,8 +16,10 @@ const moduleExclude = (match) => {
 }
 
 export default {
-  alias: {
-    '/@': `${path.resolve(__dirname, 'src')}`,
+  resolve: {
+    alias: {
+      '/@': `${path.resolve(__dirname, 'src')}`,
+    },
   },
   build: {
     sourcemap: true,
@@ -31,7 +32,6 @@ export default {
     }
   },
   plugins: [
-    svgPlugin(),
     VitePWA(),
     VitePluginHtml({
       minify: true,
