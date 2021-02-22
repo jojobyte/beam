@@ -7,9 +7,11 @@ import $, {
 
 let ns
 let appNamespace
+let userAlias
 
 const vid = $('#video')
 const broadcast = $('#broadcast')
+const currentUser = $('#current-user')
 const logout = $('#logout')
 const recBtns = $('.record')
 const authenticate = $('#authenticate > form')
@@ -29,15 +31,24 @@ const peers = [
 const gun = Gun({ peers, localStorage: true, radisk: false })
 const gunUser = gun.user()
 
-const changeUserState = () => {
+const changeUserState = (u) => {
+  // console.log('changeUserState', u, gunUser.is)
   if (gunUser.is) {
     broadcast.style = 'display:block;'
     authenticate.style = 'display:none;'
     namespace.style = 'display:none;'
+    userAlias = sessionStorage.getItem('alias')
+    currentUser.innerHTML = `
+      Logged in as <strong>@${userAlias || gunUser.is.alias}</strong><br/>
+      <sub>
+        Public Key <strong><i>${gunUser.is.pub}</i></strong>
+      </sub>
+    `
   } else {
     broadcast.style = 'display:none;'
     authenticate.style = 'display:block;'
     namespace.style = 'display:block;'
+    currentUser.innerHTML = ''
   }
 }
 
@@ -52,7 +63,7 @@ const createUser = (username, pass) => new Promise(res => gunUser.create(usernam
 const authedUser = (username, pass) => new Promise(res => gunUser.auth(username, pass, res))
 
 gun.on('auth', (...a) => {
-  changeUserState()
+  changeUserState(a)
 })
 
 gunUser.recall({ sessionStorage: true })
@@ -61,6 +72,8 @@ logout.on('click', e => {
   // console.log('logout', out)
   record?.ing?.stop()
   gunUser.leave()
+  userAlias = ''
+  sessionStorage.removeItem('alias')
   changeUserState()
 })
 
@@ -78,6 +91,9 @@ authenticate.on('submit', async e => {
     const au = await authedUser(user, pass)
     // console.log('create user', cu, au)
   }
+
+  userAlias = user
+  sessionStorage.setItem('alias', user)
 })
 
 namespace.on('submit', e => {

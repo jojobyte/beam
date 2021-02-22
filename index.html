@@ -9,6 +9,7 @@
     body{margin:0;}
     #namespace,#broadcast,#authenticate,#supportedTypes{margin-bottom:1rem;}
     #video{background:#222;width:100%;height:auto;max-height:85vh;}
+    details{margin-bottom: 2rem;}
   </style>
 </head>
 
@@ -29,6 +30,10 @@
   <br />
 
   <center id="broadcast">
+    <p id="current-user"></p>
+
+    <br />
+
     <p>Broadcast (Live Stream)</p>
     <button class="record">Camera</button>
     or
@@ -51,7 +56,12 @@
 
   <br />
 
-  <center id="supportedTypes"></center>
+  <center>
+    <details>
+      <summary>Supported Types / Codecs</summary>
+      <p id="supportedTypes"></p>
+    </details>
+  </center>
 
   <script type="module" src="/@/main.js"></script>
 </body>
