@@ -1,8 +1,8 @@
 import 'gun/gun'
 import 'gun/sea.js'
 import $, {
-  view, record, typeEl, loopTypes,
-  VIDEO_TYPES, MIME_TYPES
+  view, record, typeEl,
+  loopTypes, MIME_TYPES
 } from './utils'
 
 let ns
@@ -139,10 +139,6 @@ const supportedTypes = $('#supportedTypes')
 
 const sup = ['p', supportedTypes, MediaSource, 'isTypeSupported']
 const cpt = ['p', supportedTypes, vid, 'canPlayType']
-
-loopTypes(VIDEO_TYPES, vt => typeEl(...sup, vt))
-
-supportedTypes.appendChild(document.createElement("br"))
 
 loopTypes(MIME_TYPES, mt => typeEl(...sup, mt))
 
