@@ -1,4 +1,4 @@
-# GunSight
+# Beam
 Broadcast or watch live camera / screen streaming through [GunDB](https://github.com/amark/gun)
 
 ## Setup
